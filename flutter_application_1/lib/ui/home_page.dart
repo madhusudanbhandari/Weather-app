@@ -46,13 +46,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              height: size.height * 0.07,
+              height: size.height * 0.65,
               decoration: BoxDecoration(
                 gradient: constants.linearGradientBlue,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: constants.primaryColor.withOpacity(0.5),
+                    color: constants.primaryColor,
                     spreadRadius: 5,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
@@ -66,11 +66,11 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/menu.png', width: 35, height: 35),
+                      Image.asset('assets/menu.png', width: 35),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset('assets/pin.png', width: 25, height: 25),
+                          Image.asset('assets/pin.png', width: 5),
                           const SizedBox(width: 5),
                           Text(
                             location,
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: Image.asset(
-                          'assets/profile.jpg',
+                          'assets/profile.png',
                           width: 35,
                           height: 35,
                           fit: BoxFit.cover,
