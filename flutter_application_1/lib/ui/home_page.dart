@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/weather_item.dart';
 //import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/widgets/constants.dart';
 
@@ -128,6 +129,31 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
+                  ),
+                  Text(
+                    currentWeatherStatus,
+                    style: const TextStyle(color: Colors.white10, fontSize: 22),
+                  ),
+                  Text(
+                    currentDate,
+                    style: const TextStyle(color: Colors.white10, fontSize: 16),
+                  ),
+
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: const Divider(color: Colors.white54, thickness: 1),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        WeatherItem(
+                          value: windSpeed.toInt(),
+                          unit: 'km/hr',
+                          imageUrl: 'assets/windspeed.png',
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
