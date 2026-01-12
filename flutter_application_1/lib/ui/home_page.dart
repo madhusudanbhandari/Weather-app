@@ -59,19 +59,53 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              child:Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:[
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/menu.png',width:35,height:35), 
-
+                      Image.asset('assets/menu.png', width: 35, height: 35),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/pin.png', width: 25, height: 25),
+                          const SizedBox(width: 5),
+                          Text(
+                            location,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.asset(
+                          'assets/profile.jpg',
+                          width: 35,
+                          height: 35,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ],
-                  )
-                ]
-              )
+                  ),
+                  SizedBox(
+                    height: 160,
+                    child: Image.asset('assets/$weatherIcon'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
