@@ -12,8 +12,70 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _citycontroller = TextEditingController();
   final Constants constants = Constants();
+
+  static String API_KEY = "c1967b6f56c2401ba73154020261001";
+  String location = "Kathmandu";
+  String weatherIcon = 'heavycloudy.png';
+  int temperature = 0;
+  int humidity = 0;
+  int windSpeed = 0;
+  int cloudiness = 0;
+  String currentDate = "";
+
+  List hourlyweatherForecast = [];
+  List dailyweatherForecast = [];
+  String currentWeatherStatus = "";
+
+  //api call
+  String searchweatherAPI =
+      'http://api.weatherapi.com/v1/current.json?key=$API_KEY+&days=7&q=London&aqi=no';
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: Container(
+        width: size.width,
+        height: size.height,
+        padding: const EdgeInsets.only(top: 70, left: 10, right: 10),
+        color: constants.primaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              height: size.height * 0.07,
+              decoration: BoxDecoration(
+                gradient: constants.linearGradientBlue,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: constants.primaryColor.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/menu.png',width:35,height:35), 
+
+                    ],
+                  )
+                ]
+              )
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
