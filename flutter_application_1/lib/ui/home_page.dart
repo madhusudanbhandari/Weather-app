@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              height: size.height * 0.65,
+              height: size.height * 0.7,
               decoration: BoxDecoration(
                 gradient: constants.linearGradientBlue,
                 borderRadius: BorderRadius.circular(20),
@@ -144,13 +144,27 @@ class _HomePageState extends State<HomePage> {
                     child: const Divider(color: Colors.white54, thickness: 1),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      // vertical: 20,
+                    ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         WeatherItem(
                           value: windSpeed.toInt(),
                           unit: 'km/hr',
                           imageUrl: 'assets/windspeed.png',
+                        ),
+                        WeatherItem(
+                          value: humidity.toInt(),
+                          unit: '%',
+                          imageUrl: 'assets/humidity.png',
+                        ),
+                        WeatherItem(
+                          value: cloudiness.toInt(),
+                          unit: '%',
+                          imageUrl: 'assets/cloud.png',
                         ),
                       ],
                     ),
