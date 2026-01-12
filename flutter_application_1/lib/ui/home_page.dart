@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset('assets/pin.png', width: 5),
+                          Image.asset('assets/pin.png', width: 25),
                           const SizedBox(width: 5),
                           Text(
                             location,
@@ -103,6 +103,31 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 160,
                     child: Image.asset('assets/$weatherIcon'),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          temperature.toString(),
+                          style: TextStyle(
+                            fontSize: 80,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()..shader = constants.shader,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '°C',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()..shader = constants.shader,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
