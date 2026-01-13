@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/weather_item.dart';
 //import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/widgets/constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,6 +34,40 @@ class _HomePageState extends State<HomePage> {
   //api call
   String searchweatherAPI =
       'http://api.weatherapi.com/v1/current.json?key=$API_KEY+&days=7&q=London&aqi=no';
+
+  void fetchWeatherData(String searchText) async {
+    try {
+      var searchResult = await http.get(
+        Uri.parse(searchweatherAPI + searchText),
+      );
+      final weatherData = Map<String, dynamic>.from(
+        json.decode(searchResult.body) ?? 'No Data',
+      );
+
+      var locationData = weatherData['location'];
+      var currentWeather = weatherData['current'];
+
+      setState(() {
+        location = getShortLocationName(locationData['name']);
+      });
+    } catch (e) {
+      print("Error fetching weather data: $e");
+    }
+  }
+
+  static String getShortLocationName(String s) {
+    List<String> wordList = s.split(' ');
+
+    if (wordList.isNotEmpty) {
+      if (wordList.length > 1) {
+        return wordList[0] + wordList[1];
+      } else {
+        return wordList[0];
+      }
+    } else {
+      return " ";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,6 +238,90 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 110,
+                    child: ListView.builder(
+                      itemCount: hourlyweatherForecast.length,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        String currentTime = DateFormat(
+                          'HH:mm:ss',
+                        ).format(DateTime.now());
+                        String currentHour = currentTime.substring(0, 2);
+                        String forecastTime =
+                            hourlyweatherForecast[index]['time'].substring(
+                              11,
+                              16,
+                            );
+                        String forecastHour =
+                            hourlyweatherForecast[index]['time'].substring(
+                              11,
+                              13,
+                            );
+                        String forecastWeatherName =
+                            hourlyweatherForecast[index]['condition']['text'];
+                        String forecastWeatherIcon =
+                            forecastWeatherName
+                                .replaceAll(' ', '')
+                                .toLowerCase() +
+                            ".png";
+
+                        String forecastTemperature =
+                            hourlyweatherForecast[index]['temp_c']
+                                .round()
+                                .toString();
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          margin: EdgeInsets.only(right: 20),
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: currentHour == forecastHour
+                                ? constants.primaryColor
+                                : Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: constants.primaryColor,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                forecastTime,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: constants.greyColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Image.asset(
+                                'assets/$forecastWeatherIcon',
+                                width: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    forecastTemperature,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: constants.greyColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
