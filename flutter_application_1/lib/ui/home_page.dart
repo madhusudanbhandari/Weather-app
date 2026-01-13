@@ -49,6 +49,24 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         location = getShortLocationName(locationData['name']);
+
+        var parsedDate = DateTime.parse(
+          locationData['localtime'].substring(0, 10),
+        );
+        var newDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
+        currentDate = newDate;
+
+        currentWeatherStatus = currentWeather['condition']['text'];
+        weatherIcon =
+            currentWeatherStatus.replaceAll(' ', '').toLowerCase() + ".png";
+        temperature = currentWeather['temp_c'].toInt();
+        humidity = currentWeather['humidity'].toInt();
+        windSpeed = currentWeather['wind_kph'].toInt();
+        cloudiness = currentWeather['cloud'].toInt();
+
+        dailyweatherForecast = weatherData['forecast']['forecastday'];
+        hourlyweatherForecast = dailyweatherForecast[0]['hour'];
+        print(hourlyweatherForecast);
       });
     } catch (e) {
       print("Error fetching weather data: $e");
