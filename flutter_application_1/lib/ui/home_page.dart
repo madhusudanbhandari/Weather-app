@@ -137,7 +137,50 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _citycontroller.clear();
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return DraggableScrollableSheet(
+                                    expand: false,
+                                    builder: (context, scrollController) {
+                                      return ListView(
+                                        controller: scrollController,
+                                        children: [
+                                          Text(
+                                            'Search City',
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          TextField(
+                                            controller: _citycontroller,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              labelText: 'Enter city name',
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              String searchText =
+                                                  _citycontroller.text;
+                                              fetchWeatherData(searchText);
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text('Search'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
                             icon: Icon(
                               Icons.keyboard_arrow_down,
                               color: Colors.white,
