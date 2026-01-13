@@ -31,40 +31,45 @@ class _HomePageState extends State<HomePage> {
   List dailyweatherForecast = [];
   String currentWeatherStatus = "";
 
-  String searchweatherAPI =
-      'http://api.weatherapi.com/v1/current.json?key=$API_KEY+&days=7&q=London&aqi=no';
+  String buildWeatherAPI(String city) {
+    return 'http://api.weatherapi.com/v1/forecast.json?key=$API_KEY&days=7&q=$city&aqi=no';
+  }
 
   void fetchWeatherData(String searchText) async {
     try {
-      var searchResult = await http.get(
-        Uri.parse(searchweatherAPI + searchText),
-      );
-      final weatherData = Map<String, dynamic>.from(
-        json.decode(searchResult.body) ?? 'No Data',
-      );
+      final url = buildWeatherAPI(searchText);
+      final searchResult = await http.get(Uri.parse(url));
 
-      var locationData = weatherData['location'];
-      var currentWeather = weatherData['current'];
+      if (searchResult.statusCode != 200) {
+        final weatherData = json.decode(searchResult.body);
 
-      setState(() {
-        location = getShortLocationName(locationData['name']);
+        var locationData = weatherData['location'];
+        var currentWeather = weatherData['current'];
 
-        var parsedDate = DateTime.parse(
-          locationData['localtime'].substring(0, 10),
+        setState(() {
+          location = getShortLocationName(locationData['name']);
+
+          var parsedDate = DateTime.parse(
+            locationData['localtime'].substring(0, 10),
+          );
+          currentDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
+
+          currentWeatherStatus = currentWeather['condition']['text'];
+          weatherIcon =
+              currentWeatherStatus.replaceAll(' ', '').toLowerCase() + ".png";
+          temperature = currentWeather['temp_c'].toInt();
+          humidity = currentWeather['humidity'].toInt();
+          windSpeed = currentWeather['wind_kph'].toInt();
+          cloudiness = currentWeather['cloud'].toInt();
+
+          dailyweatherForecast = weatherData['forecast']['forecastday'];
+          hourlyweatherForecast = dailyweatherForecast[0]['hour'];
+        });
+      } else {
+        print(
+          "Failed to fetch weather data. Status code: ${searchResult.statusCode}",
         );
-        currentDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
-
-        currentWeatherStatus = currentWeather['condition']['text'];
-        weatherIcon =
-            currentWeatherStatus.replaceAll(' ', '').toLowerCase() + ".png";
-        temperature = currentWeather['temp_c'].toInt();
-        humidity = currentWeather['humidity'].toInt();
-        windSpeed = currentWeather['wind_kph'].toInt();
-        cloudiness = currentWeather['cloud'].toInt();
-
-        dailyweatherForecast = weatherData['forecast']['forecastday'];
-        hourlyweatherForecast = dailyweatherForecast[0]['hour'];
-      });
+      }
     } catch (e) {
       print("Error fetching weather data: $e");
     }
@@ -263,7 +268,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            /// 🔧 FIXED: replaced fixed height with Expanded
             Expanded(
               flex: 2,
               child: Container(
