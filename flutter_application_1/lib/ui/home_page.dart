@@ -31,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   List dailyweatherForecast = [];
   String currentWeatherStatus = "";
 
-  //api call
   String searchweatherAPI =
       'http://api.weatherapi.com/v1/current.json?key=$API_KEY+&days=7&q=London&aqi=no';
 
@@ -53,8 +52,7 @@ class _HomePageState extends State<HomePage> {
         var parsedDate = DateTime.parse(
           locationData['localtime'].substring(0, 10),
         );
-        var newDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
-        currentDate = newDate;
+        currentDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
 
         currentWeatherStatus = currentWeather['condition']['text'];
         weatherIcon =
@@ -66,7 +64,6 @@ class _HomePageState extends State<HomePage> {
 
         dailyweatherForecast = weatherData['forecast']['forecastday'];
         hourlyweatherForecast = dailyweatherForecast[0]['hour'];
-        print(hourlyweatherForecast);
       });
     } catch (e) {
       print("Error fetching weather data: $e");
@@ -90,6 +87,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -99,55 +97,57 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(top: 70, left: 10, right: 10),
         color: constants.primaryColor,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              height: size.height * 0.7,
-              decoration: BoxDecoration(
-                gradient: constants.linearGradientBlue,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: constants.primaryColor,
-                    spreadRadius: 5,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/menu.png', width: 35),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/pin.png', width: 25),
-                          const SizedBox(width: 5),
-                          Text(
-                            location,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
+            Expanded(
+              flex: 6,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  gradient: constants.linearGradientBlue,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: constants.primaryColor,
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/menu.png', width: 35),
+                        Row(
+                          children: [
+                            Image.asset('assets/pin.png', width: 25),
+                            const SizedBox(width: 5),
+                            Text(
+                              location,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              _citycontroller.clear();
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                                  return DraggableScrollableSheet(
-                                    expand: false,
-                                    builder: (context, scrollController) {
-                                      return ListView(
-                                        controller: scrollController,
+                            IconButton(
+                              onPressed: () {
+                                _citycontroller.clear();
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                          0.4,
+                                      padding: EdgeInsets.all(20),
+                                      child: Column(
                                         children: [
                                           Text(
                                             'Search City',
@@ -167,50 +167,45 @@ class _HomePageState extends State<HomePage> {
                                           SizedBox(height: 20),
                                           ElevatedButton(
                                             onPressed: () {
-                                              String searchText =
-                                                  _citycontroller.text;
-                                              fetchWeatherData(searchText);
+                                              fetchWeatherData(
+                                                _citycontroller.text,
+                                              );
                                               Navigator.pop(context);
                                             },
                                             child: Text('Search'),
                                           ),
                                         ],
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: Colors.white,
-                              size: 20,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.asset(
-                          'assets/profile.png',
-                          width: 35,
-                          height: 35,
-                          fit: BoxFit.cover,
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 160,
-                    child: Image.asset('assets/$weatherIcon'),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.asset(
+                            'assets/profile.png',
+                            width: 35,
+                            height: 35,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 160,
+                      child: Image.asset('assets/$weatherIcon'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
                           temperature.toString(),
                           style: TextStyle(
                             fontSize: 80,
@@ -218,173 +213,105 @@ class _HomePageState extends State<HomePage> {
                             foreground: Paint()..shader = constants.shader,
                           ),
                         ),
-                      ),
-                      Text(
-                        '°C',
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          foreground: Paint()..shader = constants.shader,
+                        Text(
+                          '°C',
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()..shader = constants.shader,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    currentWeatherStatus,
-                    style: const TextStyle(color: Colors.white10, fontSize: 22),
-                  ),
-                  Text(
-                    currentDate,
-                    style: const TextStyle(color: Colors.white10, fontSize: 16),
-                  ),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: const Divider(color: Colors.white54, thickness: 1),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      // vertical: 20,
+                      ],
                     ),
-                    child: Row(
+                    Text(
+                      currentWeatherStatus,
+                      style: const TextStyle(
+                        color: Colors.white10,
+                        fontSize: 22,
+                      ),
+                    ),
+                    Text(
+                      currentDate,
+                      style: const TextStyle(
+                        color: Colors.white10,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Divider(color: Colors.white54),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         WeatherItem(
-                          value: windSpeed.toInt(),
+                          value: windSpeed,
                           unit: 'km/hr',
                           imageUrl: 'assets/windspeed.png',
                         ),
                         WeatherItem(
-                          value: humidity.toInt(),
+                          value: humidity,
                           unit: '%',
                           imageUrl: 'assets/humidity.png',
                         ),
                         WeatherItem(
-                          value: cloudiness.toInt(),
+                          value: cloudiness,
                           unit: '%',
                           imageUrl: 'assets/cloud.png',
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 10),
-              height: size.height * .2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Today',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+
+            /// 🔧 FIXED: replaced fixed height with Expanded
+            Expanded(
+              flex: 2,
+              child: Container(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          'Today',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Text(
+                        Text(
                           'Forecast',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 110,
-                    child: ListView.builder(
-                      itemCount: hourlyweatherForecast.length,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        String currentTime = DateFormat(
-                          'HH:mm:ss',
-                        ).format(DateTime.now());
-                        String currentHour = currentTime.substring(0, 2);
-                        String forecastTime =
-                            hourlyweatherForecast[index]['time'].substring(
-                              11,
-                              16,
-                            );
-                        String forecastHour =
-                            hourlyweatherForecast[index]['time'].substring(
-                              11,
-                              13,
-                            );
-                        String forecastWeatherName =
-                            hourlyweatherForecast[index]['condition']['text'];
-                        String forecastWeatherIcon =
-                            forecastWeatherName
-                                .replaceAll(' ', '')
-                                .toLowerCase() +
-                            ".png";
-
-                        String forecastTemperature =
-                            hourlyweatherForecast[index]['temp_c']
-                                .round()
-                                .toString();
-                        return Container(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          margin: EdgeInsets.only(right: 20),
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: currentHour == forecastHour
-                                ? constants.primaryColor
-                                : Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: const Offset(0, 1),
-                                blurRadius: 5,
-                                color: constants.primaryColor,
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                forecastTime,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: constants.greyColor,
-                                  fontWeight: FontWeight.bold,
+                      ],
+                    ),
+                    SizedBox(
+                      height: 110,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: hourlyweatherForecast.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 60,
+                            margin: EdgeInsets.only(right: 20),
+                            child: Center(
+                              child: Text(
+                                hourlyweatherForecast[index]['time'].substring(
+                                  11,
+                                  16,
                                 ),
                               ),
-                              Image.asset(
-                                'assets/$forecastWeatherIcon',
-                                width: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    forecastTemperature,
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      color: constants.greyColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
