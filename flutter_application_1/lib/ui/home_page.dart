@@ -97,36 +97,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   String getWeatherAsset(String condition) {
-    final conditionMap = {
-      'Sunny': 'sunny.png',
-      'Clear': 'clear.png',
-      'Partly cloudy': 'partlycloudy.png',
-      'Cloudy': 'cloudy.png',
-      'Overcast': 'overcast.png',
+    final normalized = condition.toLowerCase().trim();
 
-      'Mist': 'mist.png',
-      'Fog': 'fog.png',
-      'Freezing fog': 'freezingfog.png',
+    if (normalized.contains('sunny')) return 'sunny.png';
+    if (normalized.contains('clear')) return 'clear.png';
+    if (normalized.contains('partly')) return 'partlycloudy.png';
+    if (normalized.contains('cloud')) return 'cloudy.png';
+    if (normalized.contains('overcast')) return 'overcast.png';
+    if (normalized.contains('mist')) return 'mist.png';
+    if (normalized.contains('fog')) return 'fog.png';
+    if (normalized.contains('rain')) return 'rain.png';
+    if (normalized.contains('snow')) return 'snow.png';
+    if (normalized.contains('sleet')) return 'sleet.png';
+    if (normalized.contains('thunder')) return 'thunder.png';
 
-      'Patchy rain possible': 'lightrain.png',
-      'Light rain': 'lightrain.png',
-      'Moderate rain': 'rain.png',
-      'Heavy rain': 'heavyrain.png',
-
-      'Patchy snow possible': 'lightsnow.png',
-      'Light snow': 'lightsnow.png',
-      'Moderate snow': 'snow.png',
-      'Heavy snow': 'heavysnow.png',
-
-      'Patchy sleet possible': 'sleet.png',
-      'Light sleet': 'sleet.png',
-
-      'Thundery outbreaks possible': 'thunder.png',
-      'Patchy light rain with thunder': 'thunder.png',
-      'Moderate or heavy rain with thunder': 'thunder.png',
-    };
-
-    return conditionMap[condition] ?? 'unknown.png';
+    return 'unknown.png';
   }
 
   @override
