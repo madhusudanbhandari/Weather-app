@@ -94,7 +94,7 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blue,
+                            color: Colors.blue.withOpacity(.1),
                             offset: const Offset(0, 25),
                             blurRadius: 3,
                             spreadRadius: -10,
