@@ -315,8 +315,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
 
-                        GestureDetector(
-                          onTap: () {
+                        ElevatedButton(
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -326,6 +326,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 147, 196, 236),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
                           child: const Text(
                             'Forecast',
                             style: TextStyle(
