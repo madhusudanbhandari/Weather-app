@@ -237,14 +237,14 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       currentWeatherStatus,
                       style: const TextStyle(
-                        color: Colors.white10,
+                        color: Colors.white70,
                         fontSize: 22,
                       ),
                     ),
                     Text(
                       currentDate,
                       style: const TextStyle(
-                        color: Colors.white10,
+                        color: Colors.white70,
                         fontSize: 16,
                       ),
                     ),
@@ -284,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
                         Text(
-                          'Today',
+                          "Today's",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           'Forecast',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

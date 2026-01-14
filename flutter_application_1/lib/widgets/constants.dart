@@ -9,7 +9,7 @@ class Constants {
   final greyColor = Colors.grey;
 
   final Shader shader = const LinearGradient(
-    colors: <Color>[Color(0xff000428), Color(0xff004e92)],
+    colors: <Color>[Color(0xff000428), Color.fromARGB(255, 232, 241, 249)],
   ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
   final linearGradientBlue = const LinearGradient(
