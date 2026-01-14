@@ -21,7 +21,6 @@ class _DetailPageState extends State<DetailPage> {
     Size size = MediaQuery.of(context).size;
     var weatherData = widget.dailyForecastWeather;
 
-    //function to get weather
     Map getForecastWeather(int index) {
       int maxWindSpeed = weatherData[index]["day"]["maxwind_kph"].toInt();
       int avgHumidity = weatherData[index]["day"]["avghumidity"].toInt();
@@ -95,7 +94,7 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.blue.withOpacity(.1),
+                            color: Colors.blue,
                             offset: const Offset(0, 25),
                             blurRadius: 3,
                             spreadRadius: -10,
