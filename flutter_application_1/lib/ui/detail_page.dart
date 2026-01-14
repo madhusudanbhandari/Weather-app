@@ -68,7 +68,7 @@ class _DetailPageState extends State<DetailPage> {
             bottom: 0,
             left: 0,
             child: Container(
-              height: size.height * .75,
+              height: size.height * .85,
               width: size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
