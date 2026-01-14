@@ -330,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                             'Forecast',
                             style: TextStyle(
                               fontSize: 20,
+
                               fontWeight: FontWeight.bold,
                             ),
                           ),
