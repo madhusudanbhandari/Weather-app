@@ -1,11 +1,7 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/weather_item.dart';
-
 import 'package:intl/intl.dart';
-//import 'package:weatherapp/components/weather_item.dart';
-
 import '../widgets/constants.dart';
 
 class DetailPage extends StatefulWidget {
@@ -62,17 +58,7 @@ class _DetailPageState extends State<DetailPage> {
         centerTitle: true,
         backgroundColor: _constants.primaryColor,
         elevation: 0.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                print("Settings Tapped!");
-              },
-              icon: const Icon(Icons.settings),
-            ),
-          ),
-        ],
+        actions: [Padding(padding: const EdgeInsets.only(right: 8.0))],
       ),
       body: Stack(
         alignment: Alignment.center,
