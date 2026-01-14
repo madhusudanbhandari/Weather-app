@@ -15,6 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    fetchWeatherData(location);
+  }
+
   final TextEditingController _citycontroller = TextEditingController();
   final Constants constants = Constants();
 
@@ -40,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       final url = buildWeatherAPI(searchText);
       final searchResult = await http.get(Uri.parse(url));
 
-      if (searchResult.statusCode != 200) {
+      if (searchResult.statusCode == 200) {
         final weatherData = json.decode(searchResult.body);
 
         var locationData = weatherData['location'];
@@ -299,6 +305,7 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: hourlyweatherForecast.length,
                         itemBuilder: (context, index) {
+                          if (hourlyweatherForecast.isEmpty) return SizedBox();
                           return Container(
                             width: 60,
                             margin: EdgeInsets.only(right: 20),
