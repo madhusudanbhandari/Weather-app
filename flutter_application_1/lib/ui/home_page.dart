@@ -97,20 +97,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   String getWeatherAsset(String condition) {
-    final normalized = condition.toLowerCase().trim();
+    // Normalize the API response
+    final text = condition.toLowerCase().trim();
 
-    if (normalized.contains('sunny')) return 'sunny.png';
-    if (normalized.contains('clear')) return 'clear.png';
-    if (normalized.contains('partly')) return 'partlycloudy.png';
-    if (normalized.contains('cloud')) return 'cloudy.png';
-    if (normalized.contains('overcast')) return 'overcast.png';
-    if (normalized.contains('mist')) return 'mist.png';
-    if (normalized.contains('fog')) return 'fog.png';
-    if (normalized.contains('rain')) return 'rain.png';
-    if (normalized.contains('snow')) return 'snow.png';
-    if (normalized.contains('sleet')) return 'sleet.png';
-    if (normalized.contains('thunder')) return 'thunder.png';
+    if (text.contains('sunny')) return 'sunny.png';
+    if (text.contains('clear')) return 'clear.png';
+    if (text.contains('partly')) return 'partlycloudy.png';
+    if (text.contains('cloud')) return 'cloudy.png';
+    if (text.contains('overcast')) return 'overcast.png';
 
+    if (text.contains('mist')) return 'mist.png';
+    if (text.contains('fog')) return 'fog.png';
+
+    if (text.contains('rain')) return 'rain.png';
+    if (text.contains('snow')) return 'snow.png';
+    if (text.contains('sleet')) return 'sleet.png';
+
+    if (text.contains('thunder')) return 'thunder.png';
+
+    // fallback icon if nothing matches
     return 'unknown.png';
   }
 
