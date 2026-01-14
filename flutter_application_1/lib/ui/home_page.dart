@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/weather_item.dart';
+import 'package:flutter_application_1/ui/detail_page.dart';
 //import 'package:flutter/rendering.dart';
 import 'package:flutter_application_1/widgets/constants.dart';
 import 'package:http/http.dart' as http;
@@ -61,8 +62,8 @@ class _HomePageState extends State<HomePage> {
           currentDate = DateFormat(' dd MMMM yyyy').format(parsedDate);
 
           currentWeatherStatus = currentWeather['condition']['text'];
-          weatherIcon =
-              currentWeatherStatus.replaceAll(' ', '').toLowerCase() + ".png";
+
+          currentWeatherStatus.replaceAll(' ', '').toLowerCase() + ".png";
           temperature = currentWeather['temp_c'].toInt();
           humidity = currentWeather['humidity'].toInt();
           windSpeed = currentWeather['wind_kph'].toInt();
@@ -93,6 +94,39 @@ class _HomePageState extends State<HomePage> {
     } else {
       return " ";
     }
+  }
+
+  String getWeatherAsset(String condition) {
+    final conditionMap = {
+      'Sunny': 'sunny.png',
+      'Clear': 'clear.png',
+      'Partly cloudy': 'partlycloudy.png',
+      'Cloudy': 'cloudy.png',
+      'Overcast': 'overcast.png',
+
+      'Mist': 'mist.png',
+      'Fog': 'fog.png',
+      'Freezing fog': 'freezingfog.png',
+
+      'Patchy rain possible': 'lightrain.png',
+      'Light rain': 'lightrain.png',
+      'Moderate rain': 'rain.png',
+      'Heavy rain': 'heavyrain.png',
+
+      'Patchy snow possible': 'lightsnow.png',
+      'Light snow': 'lightsnow.png',
+      'Moderate snow': 'snow.png',
+      'Heavy snow': 'heavysnow.png',
+
+      'Patchy sleet possible': 'sleet.png',
+      'Light sleet': 'sleet.png',
+
+      'Thundery outbreaks possible': 'thunder.png',
+      'Patchy light rain with thunder': 'thunder.png',
+      'Moderate or heavy rain with thunder': 'thunder.png',
+    };
+
+    return conditionMap[condition] ?? 'unknown.png';
   }
 
   @override
@@ -282,40 +316,87 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Today's",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          'Forecast',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPage(
+                                  dailyForecastWeather: dailyweatherForecast,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Forecast',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 110,
+                      height: 115,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: hourlyweatherForecast.length,
                         itemBuilder: (context, index) {
-                          if (hourlyweatherForecast.isEmpty) return SizedBox();
+                          final hour = hourlyweatherForecast[index];
+
+                          final time = hour['time'].toString().substring(
+                            11,
+                            16,
+                          );
+                          final temp = hour['temp_c'].toInt();
+                          final condition = hour['condition']['text'];
+
+                          final iconAsset = getWeatherAsset(condition);
+
                           return Container(
-                            width: 60,
-                            margin: EdgeInsets.only(right: 20),
-                            child: Center(
-                              child: Text(
-                                hourlyweatherForecast[index]['time'].substring(
-                                  11,
-                                  16,
+                            width: 80,
+                            margin: const EdgeInsets.only(right: 15),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  time,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
+
+                                Image.asset(
+                                  'assets/$iconAsset',
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.contain,
+                                ),
+
+                                Text(
+                                  '$temp°',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },
